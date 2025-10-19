@@ -1,0 +1,67 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(CounterApp());
+}
+
+class CounterApp extends StatelessWidget {
+  CounterApp({super.key});
+  int counter = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      //const
+      //       debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        //blocProvider
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("$counter"),
+              const SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  counter++;
+                },
+                child: Text('Increment'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//counterEvent
+abstract class CounterEvent {}
+
+class Increment extends CounterEvent {
+  final int value;
+  Increment(this.value);
+}
+
+//CounterState傳回去ui
+class CounterState {
+  final int value;
+  CounterState(this.value);
+}
+
+//CounterBloc
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'counter_event.dart';
+import 'counter_state.dart';
+
+class CounterBloc extends Bloc<CounterEvent, CounterState> {
+  CounterBloc() : super(CounterState(0)) {
+    //
+    on<Increment>((event, emit) {
+      emit(CounterState(state.value + event.value));//送出新的
+    });
+  }
+}
+
+//ouob
